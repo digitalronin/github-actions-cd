@@ -5,8 +5,8 @@ on:
     types: [published]
 
 jobs:
-  build_and_tag:
-    name: Build and tag docker image
+  build_tag_and_push:
+    name: Build, tag, and push docker image
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -22,3 +22,5 @@ jobs:
           region: eu-west-2
           local-image: foo
           image: webops/dstest-ecr:${{ github.sha }}
+      - name: Apply to kubernetes
+        run: export IMAGE_TAG=${{ github.sha }} && cat kubernetes-deploy.yaml | envsubst
