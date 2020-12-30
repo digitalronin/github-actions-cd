@@ -5,11 +5,20 @@ on:
     types: [published]
 
 jobs:
-  push_to_registry:
-    name: Build docker image
+  build_and_tag:
+    name: Build and tag docker image
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v2
       - name: Build
         run: docker build -t foo .
+      - name: Push to ECR
+        id: ecr
+        uses: jwalton/gh-ecr-push@v1
+        with:
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: eu-west-2
+          local-image: foo
+          image: webops/dstest-ecr:${{ github.sha }}
