@@ -35,6 +35,6 @@ jobs:
           kubectl config set-credentials deploy-user --token=${KUBE_TOKEN}
           kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=deploy-user --namespace=${NAMESPACE}
           kubectl config use-context ${KUBE_CLUSTER}
-      - name: Access the cluster
+      - name: Apply the updated manifest
         run: |
-          kubectl get pods
+          kubectl -n ${NAMESPACE} apply -f kubernetes-deploy.yaml
