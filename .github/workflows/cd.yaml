@@ -26,6 +26,9 @@ jobs:
       - name: Apply to kubernetes
         run: export IMAGE_TAG=${{ github.sha }} && cat kubernetes-deploy.yaml | envsubst
       - name: Authenticate to the cluster
+        env:
+          KUBE_CERT: $${{ secrets.KUBE_CERT }}
+          KUBE_TOKEN: $${{ secrets.KUBE_TOKEN }}
         run: |
           echo ${KUBE_CERT} > ca.crt
           ls -l ./ca.crt
