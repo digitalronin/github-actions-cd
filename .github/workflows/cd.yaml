@@ -24,7 +24,7 @@ jobs:
           local-image: foo
           image: webops/dstest-ecr:${{ github.sha }}
       - name: Apply to kubernetes
-        run: export IMAGE_TAG=${{ github.sha }} && cat kubernetes-deploy.yaml | envsubst
+        run: export IMAGE_TAG=${{ github.sha }} && cat kubernetes-deploy.tpl | envsubst > kubernetes-deploy.yaml
       - name: Authenticate to the cluster
         env:
           KUBE_CERT: ${{ secrets.KUBE_CERT }}
