@@ -1,12 +1,16 @@
 name: Continuous Deployment
+
 on:
   workflow_dispatch:
   push:
     branches:
       - 'main'
+
 env:
   KUBE_CLUSTER: live-1.cloud-platform.service.justice.gov.uk
   NAMESPACE: dstest
+  ECR: webops/dstest-ecr
+
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -23,8 +27,8 @@ jobs:
           secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: eu-west-2
           local-image: foo
-          image: webops/dstest-ecr:${{ github.sha }}
-      - name: Apply to kubernetes
+          image: ${ECR}:${{ github.sha }}
+      - name: Update image tag
         run: export IMAGE_TAG=${{ github.sha }} && cat kubernetes-deploy.tpl | envsubst > kubernetes-deploy.yaml
       - name: Authenticate to the cluster
         env:
