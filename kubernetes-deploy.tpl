@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/webops/dstest-ecr:${IMAGE_TAG}
+        image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/${ECR}:${IMAGE_TAG}
         ports:
         - containerPort: 8080
 ---
