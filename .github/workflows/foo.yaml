@@ -1,0 +1,11 @@
+name: Scratch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Helm version
+        run: helm version
